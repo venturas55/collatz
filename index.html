@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conjetura de Collatz</title>
+    <style>
+        body {
+            background-color: antiquewhite;
+            padding: 1rem 5rem;
+            font-size: large;
+        }
+        .box {
+            font-size: xx-large;
+            background-color: blanchedalmond;
+            margin: 0px auto;
+            width: 50%;
+            height: auto;
+            border: 1px solid black;
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+
+            -webkit-box-shadow: 11px 22px 13px 5px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 11px 22px 13px 5px rgba(0, 0, 0, 0.75);
+            box-shadow: 11px 22px 13px 5px rgba(0, 0, 0, 0.75);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h1>Conjetura de Collatz</h1>
+            <p> La conjetura de Collatz, también conocida como el problema 3n + 1, es una de las preguntas abiertas más
+                intrigantes
+                en el campo de las matemáticas. Propuesta por el matemático alemán Lothar Collatz en 1937, la conjetura
+                es
+                notable
+                por su simplicidad en la formulación y la aparente dificultad de su demostración.
+            </p>
+
+            <p> La conjetura de Collatz establece lo siguiente: </p>
+
+            <ul>
+                <li>Toma cualquier número entero positivo <strong>n</strong>.</li>
+                <li>Si <strong>n</strong> es par, divídelo entre <strong>2</strong>.</li>
+                <li>Si <strong>n</strong> es impar, multiplícalo por <strong>3</strong> y súmale <strong>1</strong>.
+                </li>
+                <li>Repite el proceso con el nuevo valor de nn, independientemente de si es par o impar.</li>
+            </ul>
+
+            <p> La conjetura sugiere que, sin importar qué número inicial se elija, siempre se llegará eventualmente al
+                número 1.
+                Aunque ha sido verificada para una gran cantidad de números, una prueba formal que confirme la conjetura
+                para todos
+                los enteros positivos aún no se ha encontrado.
+            </p>
+
+            <p>Este programa implementa las operaciones de la conjetura de Collatz. Dado un número entero positivo como
+                entrada, el
+                programa realizará las siguientes tareas:</p>
+            <ul>
+                <li> Aplicará las reglas de la conjetura de Collatz para transformar el número.</li>
+                <li>
+                    Registrará cada paso del proceso.</li>
+                <li>
+                    Determinará el número de pasos necesarios para alcanzar el número 1.</li>
+                <li>
+                    Mostrará la secuencia completa de transformaciones.</li>
+                <ul>
+                    <p>Este ejercicio no solo es una manera fascinante de explorar un problema matemático no resuelto,
+                        sino
+                        que
+                        también proporciona una excelente oportunidad para practicar la programación, el uso de
+                        estructuras
+                        de
+                        control y el manejo de bucles y condiciones.</p>
+        </div>
+        <div class="box">
+            <label for="number">Introduzca numero inicial</label>
+            <input type="number" id="numero">
+            <button id="start">GO</button>
+            <p>Max <span id="max"></span> </p>
+            <p>Number of Iterations <span id="totaliterations"></span></p>
+            <p>Iterations <span id="it"></span></p>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</body>
+<script>
+    var ctx = document.getElementById('myChart');
+    var myChart = null;  // Store the chart instance
+
+    let btn = document.getElementById("start");
+    var iteracionesX = [];
+    var iteracionesY = [];
+    btn.addEventListener("click", calcular);
+
+    function calcular() {
+        iteracionesX = [];
+        iteracionesY = [];
+        let num = document.getElementById("numero").value;
+        let it = document.getElementById("it");
+        it.innerText = num;
+        console.log(num);
+        let i = 0;
+        let max = num;
+        do {
+            if (num % 2 == 0) {
+                num /= 2;
+            } else {
+                num = 3 * num + 1;
+            }
+            it.innerText = it.innerText + ", " + num;
+
+            if (num > max)
+                max = num;
+
+            i++;
+            totaliterations.innerText = i;
+            iteracionesX.push(i);
+            iteracionesY.push(num);
+
+
+        } while (num != 1);
+        document.getElementById("max").innerHTML = max;
+        console.log(iteracionesX);
+        console.log(iteracionesY);
+
+
+        // Destroy existing chart if it exists
+        if (myChart) {
+            myChart.destroy();
+        }
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: iteracionesX,
+                datasets: [{
+                    label: 'Secuencia de la iteración',
+                    data: iteracionesY,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        console.log(myChart)
+    }
+</script>
+</html>
